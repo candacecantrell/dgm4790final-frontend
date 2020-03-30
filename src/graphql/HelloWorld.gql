@@ -1,0 +1,9 @@
+
+query allCassettes ($searchString: String) {
+  Cassettes (searchString: $searchString) {
+    title
+    artist
+    price
+    genre
+  }
+}
