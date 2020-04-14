@@ -1,0 +1,15 @@
+mutation createCassette ($title: String!, $artist: String, $genre: String, $price: Double) {
+  createCassette (
+    title: $title,
+    artist: $artist,
+    genre: $genre,
+    price: $price
+  ) {
+    title
+    genre
+    artist
+    price 
+      # id
+  }
+}
+

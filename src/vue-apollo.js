@@ -1,9 +1,39 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
+import { ApolloClient } from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import gql from 'graphql-tag';
+
+//const cache = new InMemoryCache();
 
 // Install the vue plugin
 Vue.use(VueApollo)
+
+
+const httpLink = new HttpLink({
+  uri: process.env.VUE_APP_GRAPHQL_ENDPOINT
+})
+
+export const typeDefs = gql`
+  type Cassette {
+    id: ID
+    title: String
+    artist: String
+    genre: String
+    price: Double
+  }
+`;
+
+// Create the apollo client
+export const apolloClient = new ApolloClient({
+  typeDefs,
+  resolvers: {},
+  link: httpLink,
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+})
 
 // Name of the localStorage item
 const AUTH_TOKEN = 'apollo-token'
@@ -17,6 +47,17 @@ Vue.prototype.$filesRoot = filesRoot
 
 // Config
 const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+  mutate: {
+    errorPolicy: 'all',
+  },
   // You can use `https` for secure connection (recommended in production)
   httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
@@ -64,8 +105,8 @@ export function createProvider (options = {}) {
     defaultClient: apolloClient,
     defaultOptions: {
       $query: {
-        // fetchPolicy: 'cache-and-network',
-      },
+        fetchPolicy: 'cache-and-network',
+      }
     },
     errorHandler (error) {
       // eslint-disable-next-line no-console

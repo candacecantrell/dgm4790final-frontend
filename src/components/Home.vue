@@ -1,9 +1,10 @@
 <template>
  <!-- Apollo watched Graphql query -->
-  <ApolloQuery :query="require('../graphql/HelloWorld.gql')"
+  <ApolloQuery :query="require('../graphql/AllCassettes.gql')"
   :variables="{ searchString }">
     <template v-slot="{ result: { loading, error, data } }">
       <!-- Loading -->
+      <div class="pageWidth">
       <div v-if="loading" class="loading apollo">Loading...</div>
 
       <!-- Error -->
@@ -12,16 +13,16 @@
       <!-- Result -->
       <div v-else-if="data" class="result apollo">
         <v-row>
-          <v-col cols="4" v-for="(item, i) in data.Cassettes" :key="i">
+          <v-col cols="4" v-for="(item, i) in data.searchCassettes" :key="i">
             <v-card class="mx-auto" max-width="350">
               <v-card-text>
                 <div>{{ item.price }}</div>
-                <p class="courseName">
+                <p class="cassetteTitle">
                   {{ item.title }}
                 </p>
                 <p>{{ item.artist }}</p>
                 <div class="text--primary">
-                  {{ item.genre | truncate(200) }}
+                  {{ item.genre }}
                 </div>
               </v-card-text>
               <v-card-actions>
@@ -36,16 +37,30 @@
 
       <!-- No result -->
       <div v-else class="no-result apollo">No result :(</div>
+      </div>
     </template>
   </ApolloQuery>
 </template>
 
 <script>
   export default {
-    name: 'HelloWorld',
+    name: 'home',
 
     data: () => ({
       searchString: "pop"
     }),
   }
 </script>
+<style scoped>
+@media only screen and (max-width: 1200px) {
+ .pageWidth {
+   max-width: 96vw;
+   margin: 0 auto;
+   padding: 50px 2% 50px 2%;
+ }
+}
+.pageWidth {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+</style>

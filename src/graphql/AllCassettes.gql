@@ -1,0 +1,9 @@
+
+query searchCassettes {
+  searchCassettes {
+    title
+    artist
+    price
+    genre
+  }
+}
