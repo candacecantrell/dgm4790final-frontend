@@ -1,7 +1,7 @@
 <template>
   <v-app>
         <v-toolbar>
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+          <v-icon class="musicIcon">mdi-music</v-icon>
           <v-toolbar-title>the audio shop</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon>
@@ -18,9 +18,10 @@
         <v-tabs
           align-with-title
         >
-          <v-tab href="/all-cassettes"><router-link class="menu-link" to="/">Cassettes</router-link>
+        <v-tab href="/"><router-link class="menu-link" to="/">Home</router-link></v-tab>
+          <v-tab href="/all-cassettes"><router-link class="menu-link" to="/all-cassettes">Cassettes</router-link>
           </v-tab>
-          <v-tab href="#two"><router-link class="menu-link" to="/">Vinyl</router-link></v-tab>
+          <v-tab href="/all-vinyl"><router-link class="menu-link" to="/all-vinyl">Vinyl</router-link></v-tab>
           <v-tab href="#three"><router-link class="menu-link" to="/">Audio Players</router-link></v-tab>
           <v-tabs-slider color="pink"></v-tabs-slider>
         </v-tabs>
@@ -46,7 +47,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="add-cassette">create cassette</router-link>
+    <router-link href="/edit-cassette" class="menu-link" to="add-cassette">create cassette</router-link>
       </v-btn>
             <v-btn
         color="white"
@@ -54,7 +55,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="add-cassette">update cassette</router-link>
+    <router-link class="menu-link" to="edit-cassette">edit cassette</router-link>
       </v-btn>
             <v-btn
         color="white"
@@ -123,6 +124,10 @@
   }
 </script>
 <style scoped>
+
+.musicIcon {
+  margin-right: 10px;
+}
 .menu-link {
   text-decoration: none;
   color: black;
