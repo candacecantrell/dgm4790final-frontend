@@ -47,7 +47,7 @@
         rounded
         class="my-4"
       >
-    <router-link href="/edit-cassette" class="menu-link" to="add-cassette">create cassette</router-link>
+    <router-link href="/create-cassette" class="menu-link" to="add-cassette">create cassette</router-link>
       </v-btn>
             <v-btn
         color="white"
@@ -55,7 +55,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="edit-cassette">edit cassette</router-link>
+    <router-link href="/edit-cassette" class="menu-link" to="edit-cassette">edit cassette</router-link>
       </v-btn>
             <v-btn
         color="white"
@@ -71,7 +71,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="add-cassette">create vinyl</router-link>
+    <router-link href="/create-vinyl" class="menu-link" to="create-vinyl">create vinyl</router-link>
       </v-btn>
             <v-btn
         color="white"
@@ -79,7 +79,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="add-cassette">update vinyl</router-link>
+    <router-link href="/edit-vinyl" class="menu-link" to="edit-vinyl">edit vinyl</router-link>
       </v-btn>
             <v-btn
         color="white"
@@ -87,7 +87,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="add-cassette">delete vinyl</router-link>
+    <router-link href="/delete-vinyl" class="menu-link" to="delete-vinyl">delete vinyl</router-link>
       </v-btn>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"

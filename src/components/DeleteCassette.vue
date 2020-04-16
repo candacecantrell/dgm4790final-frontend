@@ -8,12 +8,11 @@
           >
             <v-card class="mx-auto" max-width="350">
               <v-card-text>
-                <v-text-field
-                label="Current Title" v-model="item.title">{{ item.title }}</v-text-field>
-                <v-text-field label="Current Artist" v-model="item.artist">{{ item.artist }}</v-text-field>
-                <v-text-field label="Current Genre" v-model="item.genre">{{ item.genre }}</v-text-field>
-                <v-text-field label="Current Price" v-model="item.price">{{ item.price }}</v-text-field>
-                <div><p>id: {{item.id}}</p></div>
+                <v-card-title v-model="item.title">{{ item.title }}</v-card-title>
+                <v-card-subtitle  v-model="item.artist">{{ item.artist }}</v-card-subtitle>
+                <v-card-text label="Current Genre" v-model="item.genre">{{item.genre}}</v-card-text>
+                <v-card-text label="Current Price" v-model="item.price">{{item.id}}</v-card-text>
+                <v-card-text v-model="item.id"></v-card-text>
               </v-card-text>
               <v-card-actions>
                   <v-btn @click="mutationDeleteCassette(i)" icon><v-icon>mdi-delete</v-icon></v-btn>

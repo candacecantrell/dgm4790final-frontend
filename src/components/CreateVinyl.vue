@@ -67,6 +67,7 @@ export default {
     artist: 'Artist',
     description: 'Genre',
     price: 23.99,
+    id: 'id',
     }
   }),
       mounted() {
@@ -97,6 +98,7 @@ export default {
               .join(". ");
             this.error = error;
           } else {
+            console.log(this.VinylDetails)
             this.error = "";
             this.vinyls.push(result);
           }
