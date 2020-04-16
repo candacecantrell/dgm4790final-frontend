@@ -9,6 +9,7 @@ import AllVinyl from '../views/AllVinyl.vue'
 import EditVinyl from '../views/EditVinyl.vue'
 import CreateVinyl from '../views/CreateVinyl.vue'
 import DeleteVinyl from '../views/DeleteVinyl.vue'
+import DeleteCassette from '../views/DeleteCassette.vue'
 //import Admin from '../views/Admin.vue'
 
 Vue.use(VueRouter)
@@ -34,6 +35,11 @@ export default new VueRouter({
                 path: '/edit-cassette',
                 name: "editcassette",
                 component: EditCassette
+            },
+            { 
+                path: '/delete-cassette',
+                name: "deletecassette",
+                component: DeleteCassette
             },
             { 
                 path: '/all-vinyl',

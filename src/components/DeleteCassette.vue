@@ -16,7 +16,7 @@
                 <div><p>id: {{item.id}}</p></div>
               </v-card-text>
               <v-card-actions>
-                  <v-btn @click="mutationEditCassette(i)" icon><v-icon>mdi-circle-edit-outline</v-icon></v-btn>
+                  <v-btn @click="mutationDeleteCassette(i)" icon><v-icon>mdi-delete</v-icon></v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -40,23 +40,33 @@ query searchCassettes {
 
 // import EDIT_CASSETTE from '../graphql/EditCassette.gql'
 
-const EDIT_CASSETTE = gql`
-mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: String, $price: Float) {
-  updateCassette (
-        id: $id,
-    title: $title,
-    artist: $artist,
-    genre: $genre,
-    price: $price,
-    ) {
-      id
-      title
-      artist
-      price
-      genre
-  }
-}
-`
+// const EDIT_CASSETTE = gql`
+// mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: String, $price: Float) {
+//   updateCassette (
+//         id: $id,
+//     title: $title,
+//     artist: $artist,
+//     genre: $genre,
+//     price: $price,
+//     ) {
+//       id
+//       title
+//       artist
+//       price
+//       genre
+//   }
+// }
+// `
+
+const DELETE_CASSETTE = gql`
+mutation deleteOneCassette($id: String) {
+    deleteOneCassette(where: {id: $id}) {
+        id
+        title
+        artist
+        price
+        genre
+    }}`
 
   export default {
     name: 'home',
@@ -77,7 +87,7 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
 
     },
     methods: {
-        mutationEditCassette (i) {
+        mutationDeleteCassette (i) {
             this.activeItem = i
             console.log(this.activeItem)
             const editTitle = this.currentCassettes[i].title 
@@ -88,7 +98,7 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
             const getId = this.currentCassettes[i].id
             //console.log(getId)
       this.$apollo.mutate({
-        mutation: EDIT_CASSETTE,
+        mutation: DELETE_CASSETTE,
         variables: {
             id: getId,
           title: editTitle,

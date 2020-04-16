@@ -63,7 +63,7 @@
         rounded
         class="my-4"
       >
-    <router-link class="menu-link" to="add-cassette">delete cassette</router-link>
+    <router-link href="/delete-cassette" class="menu-link" to="delete-cassette">delete cassette</router-link>
       </v-btn>
             <v-btn
         color="white"
