@@ -3,65 +3,20 @@
           <div class="text-center">
   </div>
         <v-row>
-          <v-col cols="4" v-for="(item, i) in Cassettes.data.searchCassettes" :key="i">
+          <v-col :class="{ active: i === activeItem}"
+          cols="4" v-for="(item, i) in currentCassettes" :key="i"
+          >
             <v-card class="mx-auto" max-width="350">
               <v-card-text>
-                <div>{{ item.price }}</div>
-                <p class="cassetteTitle">
-                  {{ item.title }}
-                </p>
-                <p>{{ item.artist }}</p>
-                <div class="text--primary">
-                  {{ item.genre }} 
-                </div>
-                <p>id: {{ item.id}}</p>
+                <v-text-field
+                label="Current Title" v-model="item.title">{{ item.title }}</v-text-field>
+                <v-text-field label="Current Artist" v-model="item.artist">{{ item.artist }}</v-text-field>
+                <v-text-field label="Current Genre" v-model="item.genre">{{ item.genre }}</v-text-field>
+                <v-text-field label="Current Id" v-model="item.id">{{ item.id }}</v-text-field>
+                <v-text-field label="Current Price" v-model="item.price">{{ item.price }}</v-text-field>
               </v-card-text>
               <v-card-actions>
-                <template>
-  <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" ><v-icon>mdi-circle-edit-outline</v-icon></v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Edit Cassette</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field v-model="newtitle" label="Title*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field v-model="newartist" label="Artist" hint="example of helper text only on focus"></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field
-                  label="Genre*"
-                  v-model="newgenre"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field v-model="newprice" label="Price*" type="number" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field v-model="newid" label="Id*" type="text" required></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>*indicates required field</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-</template>
+                  <v-btn @click="mutationEditCassette(i)" icon><v-icon>mdi-circle-edit-outline</v-icon></v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -76,22 +31,33 @@ const ALL_CASSETTES = gql`
 query searchCassettes {
   searchCassettes {
     title
-    artist
+    artist 
     price
     genre
     id
   }
 }`
 
-// const SEARCH_CASSETTES = gql`
-// query searchCassettes ($searchString: String) {
-//   searchCassettes (searchString: $searchString) {
-//     title
-//     artist
-//     price
-//     genre
-//   }
-// }`
+// import EDIT_CASSETTE from '../graphql/EditCassette.gql'
+
+const EDIT_CASSETTE = gql`
+mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: String, $price: Float) {
+  updateCassette (
+        id: $id,
+    title: $title,
+    artist: $artist,
+    genre: $genre,
+    price: $price,
+    ) {
+      id
+      title
+      artist
+      price
+      genre
+  }
+}
+`
+
   export default {
     name: 'home',
 
@@ -99,39 +65,62 @@ query searchCassettes {
         return {
         dialog: false,
         Cassettes: [],
-        ListCassettes: {
-        newtitle: '',
-        newartist: '',
-        newgenre: '',
+        currentCassettes: [],
+        newtitle: 'default title',
+        newartist: 'default artist',
+        newgenre: 'default genre',
         newprice: 0,
-        }
+        newid: 'default id',
+        editableCassette: [],
+        activeItem: {},
         }
 
     },
     methods: {
-        refetch () {
-            this.$apollo.queries.ALL_CASSETTES.refetch()
+        mutationEditCassette (i) {
+            this.activeItem = i
+            console.log(this.activeItem)
+            const editTitle = this.currentCassettes[i].title 
+            console.log(editTitle)
+            const editArtist = this.currentCassettes[i].artist
+            const editGenre = this.currentCassettes[i].genre
+            const editPrice = this.currentCassettes[i].price
+            const getId = this.currentCassettes[i].id
+            //console.log(getId)
+      this.$apollo.mutate({
+        mutation: EDIT_CASSETTE,
+        variables: {
+            id: getId,
+          title: editTitle,
+          artist: editArtist,
+          price: editPrice,
+          genre: editGenre 
         },
-
-        mutationEditCassette () {
-            
-        }
+      })
+    //   this.currentCassettes[i].title = editTitle
+    //   this.currentCassettes[i].artist = editArtist
+    //   this.currentCassettes[i].genre = editGenre
+    //   this.currentCassettes[i].price = editPrice
+    //   //this.currentCassettes[i].id = getId
+          //this.Cassettes.data.searchCassettes[i].id = getId
+          this.Cassettes.data.searchCassettes[i].title = editTitle
+          this.Cassettes.data.searchCassettes[i].artist = editArtist
+          this.Cassettes.data.searchCassettes[i].price = editPrice
+          this.Cassettes.data.searchCassettes[i].genre = editGenre
+        //   this.updateCassettesData()
+          
     },
-  created: function () {
-    this.ListCassettes.newtitle = this.Cassettes.data.SearchCassettes.title
-    this.ListCassettes.newprice = this.Cassettes.price.SearchCassettes.price
-    this.ListCassettes.newartist = this.Cassettes.artist.SearchCassettes.artist
-    this.ListCassettes.newprice = this.Cassettes.price.SearchCassettes.price
-  },
-
+            
+        },
 async mounted () {
     this.Cassettes = await this.$apollo.query({
         query: ALL_CASSETTES,
     })
-    console.log(this.Cassettes.data.searchCassettes)
+    this.currentCassettes = this.Cassettes.data.searchCassettes
+    console.log(this.currentCassettes)
 
 
-}
+},
   }
 </script>
 <style scoped>

@@ -1,0 +1,16 @@
+mutation UpdateCassette ($id: String, $title: String, $artist: String, $genre: String, $price: Double) {
+  updateOneCassette (where:
+    {id: $id},
+    data: { 
+    title: $title,
+    artist: $artist,
+    genre: $genre,
+    price: $price,
+    }) {
+      id
+      title
+      artist
+      price
+      genre
+  }
+}

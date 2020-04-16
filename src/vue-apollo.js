@@ -18,7 +18,7 @@ const httpLink = new HttpLink({
 
 export const typeDefs = gql`
   type Cassette {
-    id: ID
+    id: String
     title: String
     artist: String
     genre: String
@@ -106,7 +106,10 @@ export function createProvider (options = {}) {
     defaultOptions: {
       $query: {
         fetchPolicy: 'cache-and-network',
-      }
+      },
+      $mutate: {
+        fetchPolicy: 'cache-and-network',
+      },
     },
     errorHandler (error) {
       // eslint-disable-next-line no-console

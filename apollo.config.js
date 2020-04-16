@@ -12,7 +12,7 @@ module.exports = {
       'src/**/*.js',
     ],
   },
-}
+} 
 
 // const path = require('path')
 
