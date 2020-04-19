@@ -48,6 +48,22 @@
         <div class="submitBtn">
         <v-btn large outlined @click="createCassette()">create Cassette</v-btn>
         </div>
+        <template>
+  <div class="text-center ma-2">
+    <v-snackbar
+      v-model="snackbar"
+    >
+     {{ newtitle }} {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
       </v-container>
     </v-form> 
 </template>
@@ -86,7 +102,9 @@ export default {
       newtitle: 'some title',
       newartist: 'some artist',
       newprice: 29.98,
-      newgenre: 'some genre'
+      newgenre: 'some genre',
+      snackbar: false,
+      text: 'Cassette Created',
     } 
   },
   // validations: {
@@ -106,6 +124,7 @@ export default {
   methods: {
     createCassette () {
       // if (!this.$v.$invalid) {
+        // const snackbar = this.snackbar
 				const newtitle = this.newtitle
         const newartist = this.newartist
         const newprice = this.newprice
@@ -117,7 +136,7 @@ export default {
           title: newtitle,
           artist: newartist,
           price: newprice,
-          genre: newgenre
+          genre: newgenre 
         },
       //   update: (cache, { data: { createCassette } }) => {
       //   const data = cache.readQuery({ query: MESSAGES })
@@ -136,6 +155,7 @@ export default {
           this.newartist = newartist
           this.newgenre = newgenre
           this.newprice = newprice
+          this.snackbar = true
 
 		// 		})
     //   // }

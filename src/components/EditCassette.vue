@@ -1,4 +1,5 @@
 <template>
+<v-container class="pageContainter">
       <div class="pageWidth">
           <div class="text-center">
   </div>
@@ -18,25 +19,43 @@
               <v-card-actions>
                   <v-btn @click="mutationEditCassette(i)" icon><v-icon>mdi-circle-edit-outline</v-icon></v-btn>
               </v-card-actions>
+              
             </v-card>
+                                          <template>
+  <div class="text-center ma-2">
+    <v-snackbar
+      v-model="snackbar"
+    >
+     {{ newtitle }} {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
           </v-col>
         </v-row>
       </div>
+</v-container>
 </template>
 
 <script>
 import gql from 'graphql-tag'
 
-const ALL_CASSETTES = gql`
-query searchCassettes {
-  searchCassettes {
-    title
-    artist 
-    price
-    genre
-    id
-  }
-}`
+// const ALL_CASSETTES = gql`
+// query searchCassettes {
+//   searchCassettes {
+//     title
+//     artist 
+//     price
+//     genre
+//     id
+//   }
+// }`
 
 // import EDIT_CASSETTE from '../graphql/EditCassette.gql'
 
@@ -73,6 +92,8 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
         newid: 'default id',
         editableCassette: [],
         activeItem: {},
+      snackbar: false,
+      text: 'Cassette Edited',
         }
 
     },
@@ -107,19 +128,43 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
           this.Cassettes.data.searchCassettes[i].artist = editArtist
           this.Cassettes.data.searchCassettes[i].price = editPrice
           this.Cassettes.data.searchCassettes[i].genre = editGenre
+          this.newtitle = this.Cassettes.data.searchCassettes[i].title
+          this.snackbar = true 
         //   this.updateCassettesData()
           
     },
             
         },
 async mounted () {
-    this.Cassettes = await this.$apollo.query({
-        query: ALL_CASSETTES,
-    })
-    this.currentCassettes = this.Cassettes.data.searchCassettes
-    console.log(this.currentCassettes)
+},
+apollo: {
+  searchCassettes: {
 
-
+    query: gql`query searchCassettes{
+  searchCassettes{
+    title
+    artist 
+    price
+    genre
+    id
+  }
+}`,
+variables() {
+  return {
+  title: this.Cassettes.data.searchCassettes.title,
+  artist: this.Cassettes.data.searchCassettes.artist,
+  price: this.Cassettes.data.searchCassettes.price,
+  genre: this.Cassettes.data.searchCassettes.genre,
+  id: this.Cassettes.data.searchCassettes.id,
+  }
+},
+update (data) {
+      //console.log(data)
+      this.currentCassettes = data.searchCassettes
+      console.log(this.currentCassettes)
+      return this.currentCassettes
+    },
+  },
 },
   }
 </script>

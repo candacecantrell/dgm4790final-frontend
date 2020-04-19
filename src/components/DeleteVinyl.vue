@@ -61,7 +61,7 @@ export default {
             //const getId = this.vinyls[i].id
       fetch('http://localhost:3000/shop/product-delete',
       {
-          method: 'POST',
+          method: 'POST', 
           body: JSON.stringify(this.EditableVinyl),
           headers: {
           "content-type": "application/json",

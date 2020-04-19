@@ -15,7 +15,7 @@
                 <v-card-text v-model="item.id"></v-card-text>
               </v-card-text>
               <v-card-actions>
-                  <v-btn @click="mutationDeleteCassette(i)" icon><v-icon>mdi-delete</v-icon></v-btn>
+                  <v-btn @click="mutationDeleteCassette(i), updateCassette()" icon><v-icon>mdi-delete</v-icon></v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -26,16 +26,16 @@
 <script>
 import gql from 'graphql-tag'
 
-const ALL_CASSETTES = gql`
-query searchCassettes {
-  searchCassettes {
-    title
-    artist 
-    price
-    genre
-    id
-  }
-}`
+// const ALL_CASSETTES = gql`
+// query searchCassettes {
+//   searchCassettes {
+//     title
+//     artist 
+//     price
+//     genre
+//     id
+//   }
+// }`
 
 // import EDIT_CASSETTE from '../graphql/EditCassette.gql'
 
@@ -82,11 +82,17 @@ mutation deleteOneCassette($id: String) {
         newid: 'default id',
         editableCassette: [],
         activeItem: {},
+        componentKey: 0,
         }
 
     },
     methods: {
+      updateCassette () {
+         this.$apollo.queries.searchCassettes.refetch()
+
+      },
         mutationDeleteCassette (i) {
+          this.$apollo.queries.searchCassettes.refetch()
             this.activeItem = i
             console.log(this.activeItem)
             const editTitle = this.currentCassettes[i].title 
@@ -105,30 +111,65 @@ mutation deleteOneCassette($id: String) {
           price: editPrice,
           genre: editGenre 
         },
+        
       })
-    //   this.currentCassettes[i].title = editTitle
-    //   this.currentCassettes[i].artist = editArtist
-    //   this.currentCassettes[i].genre = editGenre
-    //   this.currentCassettes[i].price = editPrice
-    //   //this.currentCassettes[i].id = getId
+      this.$apollo.queries.searchCassettes.refetch()
+      this.currentCassettes[i].title = editTitle
+      this.currentCassettes[i].artist = editArtist
+      this.currentCassettes[i].genre = editGenre
+      this.currentCassettes[i].price = editPrice
+      this.currentCassettes[i].id = getId
+      this.$apollo.queries.searchCassettes.refetch()
           //this.Cassettes.data.searchCassettes[i].id = getId
-          this.Cassettes.data.searchCassettes[i].title = editTitle
-          this.Cassettes.data.searchCassettes[i].artist = editArtist
-          this.Cassettes.data.searchCassettes[i].price = editPrice
-          this.Cassettes.data.searchCassettes[i].genre = editGenre
-        //   this.updateCassettesData()
-          
+          // this.Cassettes.data.searchCassettes[i].title = editTitle
+          // this.Cassettes.data.searchCassettes[i].artist = editArtist
+          // this.Cassettes.data.searchCassettes[i].price = editPrice
+          // this.Cassettes.data.searchCassettes[i].genre = editGenre
+          // this.Cassettes.data.searchCassettes[i].id = getId
+          console.log(this.currentCassettes)
     },
             
         },
-async mounted () {
-    this.Cassettes = await this.$apollo.query({
-        query: ALL_CASSETTES,
-    })
-    this.currentCassettes = this.Cassettes.data.searchCassettes
-    console.log(this.currentCassettes)
+async created () {
+  this.$apollo.queries.searchCassettes.refetch()
+    // this.Cassettes = await this.$apollo.query({
+    //     query: ALL_CASSETTES,
+    // })
+    // this.currentCassettes = this.Cassettes.data.searchCassettes
+    // console.log(this.currentCassettes)
+    // this.$apollo.queries.searchCassettes.fetch()
 
+  
 
+},
+apollo: {
+  searchCassettes: {
+
+    query: gql`query searchCassettes{
+  searchCassettes{
+    title
+    artist 
+    price
+    genre
+    id
+  }
+}`,
+variables() {
+  return {
+  title: this.Cassettes.data.searchCassettes.title,
+  artist: this.Cassettes.data.searchCassettes.artist,
+  price: this.Cassettes.data.searchCassettes.price,
+  genre: this.Cassettes.data.searchCassettes.genre,
+  id: this.Cassettes.data.searchCassettes.id,
+  }
+},
+update (data) {
+      //console.log(data)
+      this.currentCassettes = data.searchCassettes
+      console.log(this.currentCassettes)
+      return this.currentCassettes
+    },
+  },
 },
   }
 </script>
