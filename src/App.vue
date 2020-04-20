@@ -22,7 +22,7 @@
           <v-tab href="/all-cassettes"><router-link class="menu-link" to="/all-cassettes">Cassettes</router-link>
           </v-tab>
           <v-tab href="/all-vinyl"><router-link class="menu-link" to="/all-vinyl">Vinyl</router-link></v-tab>
-          <v-tab href="#three"><router-link class="menu-link" to="/">Audio Players</router-link></v-tab>
+          <v-tab href="/sale-items"><router-link class="menu-link" to="/sale-items">Sale</router-link></v-tab>
           <v-tabs-slider color="pink"></v-tabs-slider>
         </v-tabs>
       </template>

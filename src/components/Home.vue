@@ -3,39 +3,45 @@
           <v-row class="cardrow">
   <v-stepper v-model="e1" class="cardrow">
     <v-stepper-header>
-      <v-stepper-step :complete="e1 > 1" step="1">Name of step 1</v-stepper-step>
+      <v-stepper-step :complete="e1 > 1" color="black" step="1"></v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step :complete="e1 > 2" step="2">Name of step 2</v-stepper-step>
+      <v-stepper-step :complete="e1 > 2" color="black" step="2"></v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="3">Name of step 3</v-stepper-step>
+      <v-stepper-step color="black" step="3"></v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card
           class="mb-12 vinylCard"
-          color="grey lighten-3"
-          height="200px">
+          color="white"
+          height="300px">
           <div class="vinylText">
-        <h2>BestSelling Cassette</h2>
+        <h2>Shop Cassettes</h2>
         <p>{{ title }}</p>
         <p>{{ genre }}</p>
         <p>{{ artist }}</p>
         <p>{{ price }}</p>
+        <v-btn outlined="" color="black">
+                  View all Cassettes
+                </v-btn>
         </div>
+        <div>
         <v-img src="../assets/cassetteImg.jpg"
         class="vinylImg"
-        max-width="200"
+        max-width="400"
       max-height="200"
         ></v-img>
+                </div>
         </v-card>
 
         <v-btn
-          color="primary"
+        class="slideBtn"
+          color="black"
           @click="e1 = 2, getOneVinyl()"
         >
           Next
@@ -45,24 +51,28 @@
       <v-stepper-content step="2">
         <v-card
           class="mb-12 vinylCard"
-          color="grey lighten-3"
-          height="200px">
+          color="white"
+          height="300px">
           <div class="vinylText">
           <h2>New Vinyls</h2>
         <p>{{ VinylDetails.vinyltitle }}</p>
         <p>{{ VinylDetails.vinylartist }}</p>
         <p>{{ VinylDetails.vinylgenre }}</p> 
         <p>{{ VinylDetails.vinylprice }}</p> 
+        <v-btn outlined="" color="black">
+                  View all Vinyl
+                </v-btn>
           </div>
-        <v-img src="../assets/vinylImg.jpg"
+        <v-img src="../assets/vinylImg2.jpg"
         class="vinylImg"
-        max-width="200"
+        max-width="300"
       max-height="200"
         ></v-img>
           </v-card>
 
         <v-btn
-          color="primary"
+        class="slideBtn"
+          color="black"
           @click="e1 = 3"
         >
           Next
@@ -72,12 +82,13 @@
       <v-stepper-content step="3">
         <v-card
           class="mb-12"
-          color="grey lighten-3"
-          height="200px"
+          color="white"
+          height="300px"
         ></v-card>
 
         <v-btn
-          color="primary"
+        class="slideBtn"
+          color="black"
           @click="e1 = 1"
         >
           Next
@@ -86,6 +97,8 @@
     </v-stepper-items>
   </v-stepper>
           </v-row>
+          <div class="popCassetteDiv">
+          <div><h2 class="divTitle">New Pop Cassettes</h2></div>
           <v-row>
           <v-col cols="4" v-for="(item, i) in searchCassettes" :key="i">
             <v-card class="mx-auto" max-width="350">
@@ -100,13 +113,14 @@
                 </div>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="deep-purple accent-4">
+                <v-btn outlined="" color="black">
                   Add to Cart
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
+          </div>
 </div>
 </template>
 
@@ -191,18 +205,6 @@ variables() {
   }
 },
 update (data) {
-      //console.log(data)
-      //console.log(data)
-      // this.searchedCassette.searchedtitle = data.searchCassettes.searchCassettes.title
-      // this.searchedCassette.searchedartist = data.searchCassettes.searchCassettes.artist
-      // this.searchedCassette.searchedprice = data.searchCassettes.searchCassettes.price
-      // this.searchedCassette.searchedgenre = data.searchCassettes.searchCassettes.genre
-      // this.id = data.Cassette.id
-      // this.title = data.Cassette.title
-      // this.artist = data.Cassette.artist
-      // this.price = data.Cassette.price
-      // this.genre = data.Cassette.genrek
-      // console.log(this.searchedCassette)
       return data.searchCassettes
     },
   },
@@ -269,6 +271,14 @@ methods: {
    padding: 50px 2% 50px 2%;
  }
 }
+
+@media only screen and (max-width: 1200px) {
+  /* .vinylText {
+    padding-left: 50px;
+  } */
+}
+
+
 .pageWidth {
   max-width: 1200px;
   margin: 0 auto;
@@ -277,13 +287,24 @@ methods: {
   /* display: flex;
   justify-content: flex-end; */
   float: right;
+  height: 100%;
 }
 .vinylCard {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .cardrow {
   width: 100vw;
+}
+.popCassetteDiv {
+  margin: 50px 4% 50px 4%;
+}
+.divTitle {
+  margin: 30px 0 30px 0;
+}
+
+.slideBtn {
+  color: white;
 }
 </style>

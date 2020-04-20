@@ -10,6 +10,7 @@ import EditVinyl from '../views/EditVinyl.vue'
 import CreateVinyl from '../views/CreateVinyl.vue'
 import DeleteVinyl from '../views/DeleteVinyl.vue'
 import DeleteCassette from '../views/DeleteCassette.vue'
+import SaleItems from '../views/SaleItems.vue'
 //import Admin from '../views/Admin.vue'
 
 Vue.use(VueRouter)
@@ -60,6 +61,11 @@ export default new VueRouter({
                 path: '/delete-vinyl',
                 name: "deletevinyl",
                 component: DeleteVinyl
+            },
+            { 
+                path: '/sale-items',
+                name: "saleitems",
+                component: SaleItems
             },
         // {
         //     path: '/admin',
