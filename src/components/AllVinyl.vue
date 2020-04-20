@@ -6,7 +6,7 @@
               <v-card-text>
                 <div>{{ item.title }}</div>
                 <p class="courseName">
-                  {{ item.name }}
+                  {{ item.description }}
                 </p>
                 <p>{{ item.artist }}</p>
                 <div class="text--primary">
@@ -14,6 +14,9 @@
                 </div>
               </v-card-text>
               <v-card-actions>
+                <v-btn outlined="" color="black">
+                  Add to Cart
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>

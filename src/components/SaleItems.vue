@@ -28,14 +28,14 @@
           <div>
                 <div><h2 class="divTitle">Sale Vinyl</h2></div>
         <v-row>
-          <v-col cols="4" v-for="(item, i) in salevinyls" :key="i">
+          <v-col cols="4" v-for="(item, i) in this.salevinyls" :key="i">
             <v-card class="mx-auto" max-width="350">
               <v-card-text>
                 <div>{{ item.title }}</div>
                 <p class="courseName">
-                  {{ item.name }}
+                  {{ item.artist }}
                 </p>
-                <p>{{ item.artist }}</p>
+                <p>{{ item.description }}</p>
                 <div class="text--primary">
                  {{ item.price }}
                 </div>
@@ -66,26 +66,27 @@ export default {
       searchedartist: 'searched',
       searchedgenre: 'searched',
       searchedprice: 0.00,
+      },
       salevinyls: [],
       fullPriceVinyl: 5.00,
-      fullPriceCassette: {}
-      },
+      fullPriceCassette: {},
    }),
-      created: function() {
-       fetch('http://localhost:3000/shop/products-sale',
-      {
-          method: 'GET',
-      })
-      .then(response => {
-         response.json().then(data => {
-           return this.salevinyls = data
-        })
-      }) 
-          .catch(error => {
-          return console.error(error)
-      })
-      this.getSaleVinyl()
-   },
+//       created: function() {
+//        fetch('http://localhost:3000/shop/products-sale',
+//       {
+//           method: 'GET',
+//       })
+//       .then(response => {
+//          response.json().then(data => {
+//            return this.salevinyls = data
+//         })
+//       }) 
+//           .catch(error => {
+//           return console.error(error)
+//       })
+//       this.getSaleVinyl()
+//       this.getSaleVinyl()
+//    },
    apollo: {
           priceCassettes: {
     query: gql`query priceCassettes($priceHigh: Float) {
@@ -112,14 +113,16 @@ update (data) {
   },
    },
    methods: {
-           getSaleVinyl() {
+           getSaleVinyl: function() {
+               
       fetch('http://localhost:3000/shop/products-sale',
       {
           method: 'GET',
       })
       .then(response => {
          response.json().then(data => {
-           return this.salevinyls = data
+             this.salevinyls = data
+           return this.salevinyls
         })
       }) 
           .catch(error => {
@@ -127,21 +130,40 @@ update (data) {
       })
   },
    },
-   mounted: {
-       getSaleVinyl() {
-      fetch('http://localhost:3000/shop/products-sale',
-      {
-          method: 'GET',
-      })
-      .then(response => {
-         response.json().then(data => {
-           return this.salevinyls = data
-        })
-      }) 
-          .catch(error => {
-          return console.error(error)
-      })
-  },
+//    beforeCreate: {
+//        getSaleVinyl: function() {
+//       fetch('http://localhost:3000/shop/products-sale',
+//       {
+//           method: 'GET',
+//       })
+//       .then(response => {
+//          response.json().then(data => {
+//            return this.salevinyls = data
+//         })
+//       }) 
+//           .catch(error => {
+//           return console.error(error)
+//       })
+//    },
+//    },
+   created: function() {
+
+this.getSaleVinyl()
+console.log(this.salevinyls)
+//        getSaleVinyl() {
+//       fetch('http://localhost:3000/shop/products-sale',
+//       {
+//           method: 'GET',
+//       })
+//       .then(response => {
+//          response.json().then(data => {
+//            return this.salevinyls = data
+//         })
+//       }) 
+//           .catch(error => {
+//           return console.error(error)
+//       })
+//   },
    },
     
 }

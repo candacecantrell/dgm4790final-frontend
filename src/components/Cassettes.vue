@@ -28,8 +28,8 @@
                 </div>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="deep-purple accent-4">
-                  Learn More
+                <v-btn outlined="" color="black">
+                  Add to Cart
                 </v-btn>
               </v-card-actions>
             </v-card>

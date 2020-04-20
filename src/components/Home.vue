@@ -144,8 +144,8 @@ import gql from 'graphql-tag'
       artist: 'default',
       price: 0.00,
       genre: 'default',
-      id: "ck95y1jlk00009jwbrveuvz9o",
-      VinylDetails: {
+      id: "ck98t2v0t00033lwbh3dmh91k",
+      VinylDetails: { 
       vinyltitle: 'default',
       vinylartist: 'default',
       vinylprice: 0.00,
