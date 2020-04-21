@@ -1,51 +1,60 @@
 <template>
- <!-- Apollo watched Graphql query -->
-  <ApolloQuery :query="require('../graphql/searchCassettes.gql')"
-  :variables="{ searchString }">
-    <template v-slot="{ result: { loading, error, data } }">
-      <!-- Loading -->
-      <div class="pageWidth">
-          <div class="text-center">
-  </div>
-      <div v-if="loading" class="loading apollo">Loading...</div>
-
-      <!-- Error -->
-      <div v-else-if="error" class="error apollo">An error occured</div>
-      
-      <!-- Result -->
-      <div v-else-if="data" class="result apollo">
-        <v-row>
-          <v-col cols="4" v-for="(item, i) in data.searchCassettes" :key="i">
-            <v-card class="mx-auto" max-width="350">
-              <v-card-text>
-                <div>{{ item.price }}</div>
-                <p class="cassetteTitle">
+<div class="pageWidth">
+         <div class="popCassetteDiv">
+          <v-row>
+          <v-col cols="4" v-for="(item, i) in searchCassettes" :key="i">
+          <v-card class="mx-auto" max-width="350">
+              <v-img
+              src="../assets/cassetteImg2.jpg"
+              ></v-img>
+              <v-card-title class="cassetteTitle">
                   {{ item.title }}
-                </p>
-                <p>{{ item.artist }}</p>
-                <div class="text--primary">
-                  {{ item.genre }}
-                </div>
+                </v-card-title>
+                <v-card-subtitle class="text--primary">
+                  {{ item.artist }}
+                </v-card-subtitle>
+              <v-card-text>
+                <p>{{ item.genre }}</p>
+                <div class="priceText">${{ item.price }}</div>
               </v-card-text>
               <v-card-actions>
-                <v-btn outlined="" color="black">
+                <v-btn outlined="" color="black"
+                @click="AddToBag(i)"
+                >
                   Add to Cart
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
-      </div>
+                            <template>
+  <div class="text-center">
 
-      <!-- No result -->
-      <div v-else class="no-result apollo">No result :(</div>
-      </div>
-    </template>
-  </ApolloQuery>
+    <v-snackbar
+      v-model="snackbar"
+      :right="x === 'right'"
+      :top="y === 'top'"
+      color="white"
+      class="snackbarStyle"
+    >
+      {{ this.snackbartitle }} Added to Cart  
+      <v-icon class="cartIcon">mdi-cart</v-icon>
+      <v-btn
+        dark
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
+          </div>
+          </div>
 </template>
 
 <script>
-// import gql from 'graphql-tag'
+import gql from 'graphql-tag'
 
 // const ALL_CASSETTES = gql`
 // query searchCassettes {
@@ -70,8 +79,80 @@
     name: 'home',
 
     data: () => ({
+                  x: 'right',
+        y: 'top',
+       snackbartitle: 'default',
+       snackbar: false,
+      searchedCassette: {
+      searchedtitle: 'searched',
+      searchedartist: 'searched',
+      searchedgenre: 'searched',
+      searchedprice: 0.00,
+      },
+      bagItem: {
+        title: '',
+        artist: '',
+        price: '',
+        genre: '',
+      },
+      activeItem: {},
+      itemsAdded: [], 
+      storedItem: [],
+      cassettes: [],
 
     }),
+    apollo: {
+    searchCassettes: {
+    query: gql`query searchCassettes($searchString: String) {
+  searchCassettes(searchString: $searchString) {
+    title
+    artist 
+    price
+    genre
+  }
+}`,
+variables() {
+  return {
+    title: this.searchedCassette.searchedtitle,
+    artist: this.searchedCassette.searchedartist,
+    price: this.searchedCassette.searchedprice,
+    genre: this.searchedCassette.searchedgenre,
+    searchString: this.searchstring
+  }
+},
+update (data) {
+        this.cassettes = data.searchCassettes
+      console.log(this.cassettes)
+      return data.searchCassettes
+    },
+  },
+},
+    methods: {
+                  AddToBag(i) {
+    this.activeItem = i
+    this.itemsAdded = this.$store.getters.storeItem
+    console.log(this.itemsAdded)
+    this.storedItem.title = this.cassettes[i].title
+    this.storedItem.artist  = this.cassettes[i].artist
+    this.storedItem.genre = this.cassettes[i].genre
+    this.storedItem.price = this.cassettes[i].price
+    //const storedItem = this.storeItem
+    const storedItem = this.storedItem
+    console.log(this.cassettes[i].title) 
+    this.$store.commit('baggedItem', {
+      storeItem: storedItem
+    })
+            this.snackbartitle = this.cassettes[i].title
+    this.snackbar = true
+        this.storedItem = []
+},
+
+    },
+    mounted: {
+      addToCart() {
+
+      }
+    }
   }
 </script>
 <style scoped>
@@ -79,11 +160,20 @@
  .pageWidth {
    max-width: 96vw;
    margin: 0 auto;
-   padding: 50px 2% 50px 2%;
+   padding: 50px 4% 50px 4%;
  }
 }
 .pageWidth {
   max-width: 1200px;
   margin: 0 auto;
+}
+.snackbarStyle {
+    color: #000;
+}
+.cartIcon {
+    float: right;
+}
+.priceText {
+  font-size: 18px;
 }
 </style>

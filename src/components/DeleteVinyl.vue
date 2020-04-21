@@ -21,6 +21,22 @@
             </v-card>
           </v-col>
         </v-row>
+                        <template>
+  <div class="text-center ma-2">
+    <v-snackbar
+      v-model="snackbar"
+    >
+     {{ snackbartitle }} Vinyl Deleted
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
       </div>
 </template>
 
@@ -30,6 +46,8 @@
 export default {
   name: "allvinyl",
     data: () => ({
+      snackbartitle: 'default',
+      snackbar: false,
     vinyls: [],
     activeItem: {},
     EditableVinyl: {
@@ -41,7 +59,7 @@ export default {
     }
   }),
       mounted() {
-      fetch('http://localhost:3000/shop/shop-products')
+      fetch('https://gentle-tundra-60449.herokuapp.com/shop/shop-products')
       .then(response => response.json())
          .then(result => {
         this.vinyls = result;
@@ -59,7 +77,7 @@ export default {
             this.EditableVinyl.productId = this.vinyls[i]._id
             console.log(this.EditableVinyl)
             //const getId = this.vinyls[i].id
-      fetch('http://localhost:3000/shop/product-delete',
+      fetch('https://gentle-tundra-60449.herokuapp.com/shop/product-delete',
       {
           method: 'POST', 
           body: JSON.stringify(this.EditableVinyl),
@@ -83,8 +101,23 @@ export default {
             this.vinyls.join()
           }
       })
+      this.snackbartitle = this.vinyls[i].title
+      this.snackbar = true
 
   },
 }
 }
 </script>
+<style scoped>
+@media only screen and (max-width: 1200px) {
+ .pageWidth {
+   max-width: 96vw;
+   margin: 0 auto;
+   padding: 50px 4% 50px 4%;
+ }
+}
+.pageWidth {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+</style>

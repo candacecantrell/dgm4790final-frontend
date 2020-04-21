@@ -102,18 +102,23 @@
           <v-row>
           <v-col cols="4" v-for="(item, i) in searchCassettes" :key="i">
             <v-card class="mx-auto" max-width="350">
-              <v-card-text>
-                <div>{{ item.price }}</div>
-                <p class="cassetteTitle">
+              <v-img
+              src="../assets/cassetteImg2.jpg" 
+              ></v-img>
+              <v-card-title class="cassetteTitle">
                   {{ item.title }}
-                </p>
-                <p>{{ item.artist }}</p>
-                <div class="text--primary">
-                  {{ item.genre }}
-                </div>
+                </v-card-title>
+                <v-card-subtitle class="text--primary">
+                  {{ item.artist }}
+                </v-card-subtitle>
+              <v-card-text>
+                <p>{{ item.genre }}</p>
+                <div class="priceText">${{ item.price }}</div>
               </v-card-text>
               <v-card-actions>
-                <v-btn outlined="" color="black">
+                <v-btn outlined="" color="black"
+                @click="AddToBag(i)"
+                >
                   Add to Cart
                 </v-btn>
               </v-card-actions>
@@ -121,6 +126,28 @@
           </v-col>
         </v-row>
           </div>
+                    <template>
+  <div class="text-center">
+
+    <v-snackbar
+      v-model="snackbar"
+      :right="x === 'right'"
+      :top="y === 'top'"
+      color="white"
+      class="snackbarStyle"
+    >
+      {{ this.snackbartitle }} Added to Cart  
+      <v-icon class="cartIcon">mdi-cart</v-icon>
+      <v-btn
+        dark
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
 </div>
 </template>
 
@@ -132,7 +159,15 @@ import gql from 'graphql-tag'
     name: 'home',
 
     data: () => ({
+                  x: 'right',
+        y: 'top',
+       snackbartitle: 'default',
+       snackbar: false,
       e1: 1,
+      allBaggedItems: [],
+      itemsBagged: [],
+      activeItem: {},
+      cassettes: [],
       searchstring: 'pop',
       searchedCassette: {
       searchedtitle: 'searched',
@@ -153,6 +188,12 @@ import gql from 'graphql-tag'
       productId: '5e59cd64da65f831fbddf345',
       },
       vinyls: [],
+            storedItem: {
+        title: '',
+        artist: '',
+        price: 0,
+        genre: '',
+      },
     }),
     apollo: {
   Cassette: {
@@ -205,13 +246,15 @@ variables() {
   }
 },
 update (data) {
+        this.cassettes = data.searchCassettes
+      console.log(this.cassettes)
       return data.searchCassettes
     },
   },
   
 },
       mounted() {
-      fetch('http://localhost:3000/shop/shop-products')
+      fetch('https://gentle-tundra-60449.herokuapp.com/shop/shop-products')
       .then(response => response.json())
          .then(result => {
         this.vinyls = result;
@@ -225,7 +268,7 @@ methods: {
             this.VinylDetails.description = this.vinyls[3].description
             this.VinylDetails.price = this.vinyls[3].price
             this.VinylDetails.productId = this.vinyls[3]._id
-      fetch('http://localhost:3000/shop/product-id',
+      fetch('https://gentle-tundra-60449.herokuapp.com/shop/product-id',
       {
           method: 'POST',
           body: JSON.stringify(this.VinylDetails),
@@ -258,9 +301,27 @@ methods: {
             // console.log(this.VinylDetails)
           }
       })
-
-  },
+          },
+            AddToBag(i) {
+    this.activeItem = i
+    this.itemsAdded = this.$store.getters.storeItem
+    console.log(this.itemsAdded)
+    this.storedItem.title = this.cassettes[i].title
+    this.storedItem.artist  = this.cassettes[i].artist
+    this.storedItem.genre = this.cassettes[i].genre
+    this.storedItem.price = this.cassettes[i].price
+    //const storedItem = this.storeItem
+    const storedItem = this.storedItem
+    console.log(this.cassettes[i].title) 
+    this.$store.commit('baggedItem', {
+      storeItem: storedItem
+    })
+        this.snackbartitle = this.cassettes[i].title
+    this.snackbar = true
+        this.storedItem = []
 },
+  },
+
   }
 </script>
 <style scoped>
@@ -296,6 +357,7 @@ methods: {
 }
 .cardrow {
   width: 100vw;
+  margin: 0 auto;
 }
 .popCassetteDiv {
   margin: 50px 4% 50px 4%;
@@ -306,5 +368,14 @@ methods: {
 
 .slideBtn {
   color: white;
+}
+.snackbarStyle {
+    color: #000;
+}
+.cartIcon {
+    float: right;
+}
+.priceText {
+  font-size: 18px;
 }
 </style>

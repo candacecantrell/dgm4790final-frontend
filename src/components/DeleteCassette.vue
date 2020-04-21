@@ -20,6 +20,22 @@
             </v-card>
           </v-col>
         </v-row>
+                                <template>
+  <div class="text-center ma-2">
+    <v-snackbar
+      v-model="snackbar"
+    >
+     {{ snackbartitle }} Cassette Deleted
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
       </div>
 </template>
 
@@ -72,6 +88,8 @@ mutation deleteOneCassette($id: String) {
 
     data() {
         return {
+          snackbar: false,
+          snackbartitle: 'default',
         dialog: false,
         Cassettes: [],
         currentCassettes: [],
@@ -118,7 +136,7 @@ mutation deleteOneCassette($id: String) {
       this.currentCassettes[i].artist = editArtist
       this.currentCassettes[i].genre = editGenre
       this.currentCassettes[i].price = editPrice
-      this.currentCassettes[i].id = getId
+      this.currentCassettes[i].id = getId 
       this.$apollo.queries.searchCassettes.refetch()
           //this.Cassettes.data.searchCassettes[i].id = getId
           // this.Cassettes.data.searchCassettes[i].title = editTitle
@@ -127,6 +145,8 @@ mutation deleteOneCassette($id: String) {
           // this.Cassettes.data.searchCassettes[i].genre = editGenre
           // this.Cassettes.data.searchCassettes[i].id = getId
           console.log(this.currentCassettes)
+          this.snackbartitle = this.currentCassettes[i].title
+          this.snackbar = true
     },
             
         },
@@ -178,7 +198,7 @@ update (data) {
  .pageWidth {
    max-width: 96vw;
    margin: 0 auto;
-   padding: 50px 2% 50px 2%;
+   padding: 50px 4% 50px 4%;
  }
 }
 .pageWidth {

@@ -12,7 +12,7 @@
           </v-btn>
           <v-btn icon>
 
-            <v-icon>mdi-cart<router-link class="menu-link" to="/"></router-link></v-icon>
+           <router-link href="/cart-page" class="menu-link" to="/cart-page"> <v-icon>mdi-cart</v-icon></router-link>
           </v-btn>
           <template v-slot:extension>
         <v-tabs

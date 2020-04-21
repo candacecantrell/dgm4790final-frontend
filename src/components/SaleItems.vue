@@ -4,20 +4,24 @@
           <div><h2 class="divTitle">Sale Cassettes</h2></div>
           <v-row>
           <v-col cols="4" v-for="(item, i) in priceCassettes" :key="i">
-            <v-card class="mx-auto" max-width="350">
-              <v-card-text>
-                <p class="cassetteTitle">
+          <v-card class="mx-auto" max-width="350">
+              <v-img
+              src="../assets/cassetteImg2.jpg"
+              ></v-img> 
+              <v-card-title class="cassetteTitle">
                   {{ item.title }}
-                </p>
-                <p>{{ item.artist }}</p>
-                <div class="text--primary">
-                  {{ item.genre }}
-                </div>
-                <div>{{ item.price }}</div>
-                <div class="fullprice">{{item.price*2}}</div>
+                </v-card-title>
+                <v-card-subtitle class="text--primary">
+                  {{ item.artist }}
+                </v-card-subtitle>
+              <v-card-text>
+                <p>{{ item.genre }}</p>
+                <div class="priceText">${{ item.price }}</div>
               </v-card-text>
               <v-card-actions>
-                <v-btn outlined="" color="black">
+                <v-btn outlined="" color="black"
+                @click="AddToBag(i)"
+                >
                   Add to Cart
                 </v-btn>
               </v-card-actions>
@@ -29,20 +33,24 @@
                 <div><h2 class="divTitle">Sale Vinyl</h2></div>
         <v-row>
           <v-col cols="4" v-for="(item, i) in this.salevinyls" :key="i">
-            <v-card class="mx-auto" max-width="350">
-              <v-card-text>
-                <div>{{ item.title }}</div>
-                <p class="courseName">
+          <v-card class="mx-auto" max-width="350">
+              <v-img
+              src="../assets/vinylImg4.jpg"
+              ></v-img>
+              <v-card-title class="cassetteTitle">
+                  {{ item.title }}
+                </v-card-title>
+                <v-card-subtitle class="text--primary">
                   {{ item.artist }}
-                </p>
+                </v-card-subtitle>
+              <v-card-text>
                 <p>{{ item.description }}</p>
-                <div class="text--primary">
-                 {{ item.price }}
-                </div>
-                <div class="fullprice">{{item.price*2}}</div>
+                <div class="priceText">${{ item.price }}</div>
               </v-card-text>
               <v-card-actions>
-                <v-btn outlined="" color="black">
+                <v-btn outlined="" color="black"
+                @click="BagVinyl(i)"
+                >
                   Add to Cart
                 </v-btn>
               </v-card-actions>
@@ -50,6 +58,28 @@
           </v-col>
         </v-row>
           </div>
+          <template>
+  <div class="text-center">
+
+    <v-snackbar
+      v-model="snackbar"
+      :right="x === 'right'"
+      :top="y === 'top'"
+      color="white"
+      class="snackbarStyle"
+    >
+      {{ this.snackbartitle }} Added to Cart  
+      <v-icon class="cartIcon">mdi-cart</v-icon>
+      <v-btn
+        dark
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
   </div>
 </template>
 
@@ -60,7 +90,21 @@ export default {
     name: "saleitems",
 
    data: () => ({
-             priceHigh: 10.00,
+            x: 'right',
+        y: 'top',
+       snackbartitle: 'default',
+       snackbar: false,
+      allBaggedItems: [],
+      itemsBagged: [],
+      activeItem: {},
+      cassettes: [],
+        storedItem: {
+        title: '',
+        artist: '',
+        price: 0,
+        genre: '',
+      },
+      priceHigh: 10.00,
       searchedCassette: {
       searchedtitle: 'searched',
       searchedartist: 'searched',
@@ -71,22 +115,6 @@ export default {
       fullPriceVinyl: 5.00,
       fullPriceCassette: {},
    }),
-//       created: function() {
-//        fetch('http://localhost:3000/shop/products-sale',
-//       {
-//           method: 'GET',
-//       })
-//       .then(response => {
-//          response.json().then(data => {
-//            return this.salevinyls = data
-//         })
-//       }) 
-//           .catch(error => {
-//           return console.error(error)
-//       })
-//       this.getSaleVinyl()
-//       this.getSaleVinyl()
-//    },
    apollo: {
           priceCassettes: {
     query: gql`query priceCassettes($priceHigh: Float) {
@@ -107,7 +135,8 @@ variables() {
   }
 },
 update (data) {
-    console.log(data)
+    this.cassettes = data.priceCassettes
+    console.log(this.cassettes)
       return data.priceCassettes
     },
   },
@@ -115,7 +144,7 @@ update (data) {
    methods: {
            getSaleVinyl: function() {
                
-      fetch('http://localhost:3000/shop/products-sale',
+      fetch('https://gentle-tundra-60449.herokuapp.com/shop/products-sale',
       {
           method: 'GET',
       })
@@ -129,6 +158,43 @@ update (data) {
           return console.error(error)
       })
   },
+
+                    AddToBag(i) {
+    this.activeItem = i
+    this.itemsAdded = this.$store.getters.storeItem
+    console.log(this.itemsAdded)
+    this.storedItem.title = this.cassettes[i].title
+    this.storedItem.artist  = this.cassettes[i].artist
+    this.storedItem.genre = this.cassettes[i].genre
+    this.storedItem.price = this.cassettes[i].price
+    //const storedItem = this.storeItem
+    const storedItem = this.storedItem
+    console.log(this.cassettes[i].title) 
+    this.$store.commit('baggedItem', {
+      storeItem: storedItem 
+    })
+        this.snackbartitle = this.cassettes[i].title
+    this.snackbar = true
+        this.storedItem = []
+},
+                    BagVinyl(i) {
+    this.activeItem = i
+    this.itemsAdded = this.$store.getters.storeItem
+    console.log(this.itemsAdded)
+    this.storedItem.title = this.salevinyls[i].title
+    this.storedItem.artist  = this.salevinyls[i].artist
+    this.storedItem.genre = this.salevinyls[i].description
+    this.storedItem.price = this.salevinyls[i].price
+    //const storedItem = this.storeItem
+    const storedItem = this.storedItem
+    console.log(this.salevinyls[i].title) 
+    this.$store.commit('baggedItem', {
+      storeItem: storedItem
+    })
+    this.snackbartitle = this.salevinyls[i].title
+    this.snackbar = true
+        this.storedItem = []
+},
    },
 //    beforeCreate: {
 //        getSaleVinyl: function() {
@@ -176,6 +242,15 @@ console.log(this.salevinyls)
 .fullprice {
     text-decoration: line-through;
     color: #D32F2F;
+}
+.snackbarStyle {
+    color: #000;
+}
+.cartIcon {
+    float: right;
+}
+.priceText {
+  font-size: 18px;
 }
 /* text-decoration: line-through; */
 </style>

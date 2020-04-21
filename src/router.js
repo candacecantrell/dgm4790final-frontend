@@ -11,11 +11,13 @@ import CreateVinyl from '../views/CreateVinyl.vue'
 import DeleteVinyl from '../views/DeleteVinyl.vue'
 import DeleteCassette from '../views/DeleteCassette.vue'
 import SaleItems from '../views/SaleItems.vue'
+import CartPage from '../views/CartPage.vue'
 //import Admin from '../views/Admin.vue'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
+    mode: 'history',
     routes: [
         { 
             path: '/',
@@ -66,6 +68,11 @@ export default new VueRouter({
                 path: '/sale-items',
                 name: "saleitems",
                 component: SaleItems
+            },
+            { 
+                path: '/cart-page', 
+                name: "cartpage",
+                component: CartPage
             },
         // {
         //     path: '/admin',

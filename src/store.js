@@ -5,21 +5,32 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    editableCassette: null,
+    storeItem: [
+      {
+      title: 'default',
+      artist: '',
+      price: 0.00,
+      genre: 'default',
+      id: '12345',
+      }
+    ]
   },
   getters: {
-    currentEditableCassette: (state) => {
-      return state.editableCassette
+    storeItem: (state) => { 
+      return state.storeItem
     },
   },
   mutations: {
-    editCassette(state, editableCassette) {
-      state.editableCassette = editableCassette
+    baggedItem(state, storeItem) {
+      //state.storeItem = storeItem
+      state.storeItem.push(storeItem)
+      //return state.storeItem
+      // state.storeItem = state.storeItem + storeItem
     },
   },
   actions: {
-    editCassette(context, cassette) {
-      context.commit('editCassette', cassette)
+    itemAddToBag({commit}, storeItem) {
+      commit('baggedItem', storeItem)
     },
   }
 })

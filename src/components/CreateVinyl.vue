@@ -1,4 +1,5 @@
 <template>
+<div class="pageWidth">
     <v-form>
       <v-container class="pageContainer">
         <v-row>
@@ -27,7 +28,7 @@
           </v-col>
         </v-row>
         <v-row >
-          <v-col cols="12" md="12">
+          <v-col cols="12" md="12"> 
             <v-text-field single-line
             outlined
             clearable
@@ -37,14 +38,14 @@
             type="text"
             label="Genre"></v-text-field>
           </v-col>
-          <v-col cols="12" md="2">
+          <v-col cols="12" md="12">
           <v-text-field single-line
             outlined
             clearable
-            class="inputClass" 
             v-model="VinylDetails.price" 
-            placeholder="23.98" 
-            type="number" 
+            placeholder="23.98"
+            class="inputClass"
+            type="text" 
             label="price"></v-text-field>
           </v-col>
         </v-row>
@@ -52,7 +53,24 @@
         <v-btn large outlined @click="AddVinyl()">Add Vinyl</v-btn>
         </div>
       </v-container>
-    </v-form> 
+    </v-form>
+        <template>
+  <div class="text-center ma-2">
+    <v-snackbar
+      v-model="snackbar"
+    >
+     {{ snackbartitle }} Vinyl Created
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
+</template>
+</div>
 </template>
 
 <script>
@@ -61,6 +79,8 @@
 export default {
   name: "allvinyl",
     data: () => ({
+      snackbar: false,
+      snackbartitle: 'default',
     vinyls: [],
     VinylDetails: {
     title: 'Vinyl Title',
@@ -71,7 +91,7 @@ export default {
     }
   }),
       mounted() {
-      fetch('http://localhost:3000/shop/shop-products')
+      fetch('https://localhost:3000/shop/shop-products')
       .then(response => response.json())
          .then(result => {
         this.messages = result;
@@ -80,7 +100,7 @@ export default {
   methods: {
           AddVinyl() {
               console.log(this.VinylDetails)
-      fetch('http://localhost:3000/shop/add-product',
+      fetch('https://gentle-tundra-60449.herokuapp.com/shop/add-product',
       {
           method: 'POST',
           body: JSON.stringify(this.VinylDetails),
@@ -103,8 +123,22 @@ export default {
             this.vinyls.push(result);
           }
       })
-
+  this.snackbar = true;
+  this.snackbartitle = this.VinylDetails.title
   },
 }
 }
 </script>
+<style scoped>
+@media only screen and (max-width: 800px) {
+ .pageWidth {
+   max-width: 96vw;
+   margin: 0 auto;
+   padding: 50px 4% 50px 4%;
+ }
+}
+.pageWidth {
+  max-width: 800px;
+  margin: 0 auto;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
     <v-form>
-      <v-container class="pageContainer">
+      <v-container class="pageWidth">
         <v-row>
           <v-col cols="12" md="12">
             <v-text-field single-line
@@ -34,7 +34,7 @@
             placeholder="Cassette Genre" 
             label="Genre"></v-text-field>
           </v-col>
-          <v-col cols="12" md="2">
+          <v-col cols="12" md="12">
           <v-text-field single-line
             outlined
             clearable
@@ -164,20 +164,15 @@ export default {
 }
 </script>
 <style scoped>
-.pageContainer {
-  margin-top: 50px;
-  max-width: 1200px;
+@media only screen and (max-width: 800px) {
+ .pageWidth {
+   max-width: 96vw;
+   margin: 0 auto;
+   padding: 50px 4% 50px 4%;
+ }
 }
-
-.inputClass {
-  width: 50%;
+.pageWidth {
+  max-width: 800px;
   margin: 0 auto;
-  color: #000;
-}
-
-.submitBtn {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
 }
 </style>
