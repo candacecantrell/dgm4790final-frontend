@@ -1,6 +1,5 @@
 <template>
-<v-container class="pageContainter">
-      <div class="pageWidth">
+<div class="pageWidth">
           <div class="text-center">
   </div>
         <v-row>
@@ -21,12 +20,14 @@
               </v-card-actions>
               
             </v-card>
-                                          <template>
+          </v-col> 
+        </v-row>
+        <template>
   <div class="text-center ma-2">
     <v-snackbar
-      v-model="snackbar"
+      v-model="snackbar" 
     >
-     {{ newtitle }} {{ text }}
+     {{ this.snackbartitle }} Cassette Edited
       <v-btn
         color="pink"
         text
@@ -37,27 +38,11 @@
     </v-snackbar>
   </div>
 </template>
-          </v-col>
-        </v-row>
-      </div>
-</v-container>
+</div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
-
-// const ALL_CASSETTES = gql`
-// query searchCassettes {
-//   searchCassettes {
-//     title
-//     artist 
-//     price
-//     genre
-//     id
-//   }
-// }`
-
-// import EDIT_CASSETTE from '../graphql/EditCassette.gql'
 
 const EDIT_CASSETTE = gql`
 mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: String, $price: Float) {
@@ -93,6 +78,7 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
         editableCassette: [],
         activeItem: {},
       snackbar: false,
+      snackbartitle: 'default',
       text: 'Cassette Edited',
         }
 
@@ -107,6 +93,7 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
             const editGenre = this.currentCassettes[i].genre
             const editPrice = this.currentCassettes[i].price
             const getId = this.currentCassettes[i].id
+
             //console.log(getId)
       this.$apollo.mutate({
         mutation: EDIT_CASSETTE,
@@ -124,13 +111,12 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
     //   this.currentCassettes[i].price = editPrice
     //   //this.currentCassettes[i].id = getId
           //this.Cassettes.data.searchCassettes[i].id = getId
+          this.snackbartitle = editTitle
+          this.snackbar = true 
           this.Cassettes.data.searchCassettes[i].title = editTitle
           this.Cassettes.data.searchCassettes[i].artist = editArtist
           this.Cassettes.data.searchCassettes[i].price = editPrice
           this.Cassettes.data.searchCassettes[i].genre = editGenre
-          this.newtitle = this.Cassettes.data.searchCassettes[i].title
-          this.snackbar = true 
-        //   this.updateCassettesData()
           
     },
             
