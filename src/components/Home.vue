@@ -26,9 +26,12 @@
         <p>{{ genre }}</p>
         <p>{{ artist }}</p>
         <p>{{ price }}</p>
-        <v-btn outlined="" color="black">
+        <router-link href="/all-cassettes" class="menu-link" to="/all-cassettes">
+        <v-btn outlined="" color="black"
+        >
                   View all Cassettes
                 </v-btn>
+        </router-link>
         </div>
         <div>
         <v-img src="../assets/cassetteImg.jpg"
@@ -59,9 +62,11 @@
         <p>{{ VinylDetails.vinylartist }}</p>
         <p>{{ VinylDetails.vinylgenre }}</p> 
         <p>{{ VinylDetails.vinylprice }}</p> 
+        <router-link href="/all-vinyl" class="menu-link" to="/all-vinyl">
         <v-btn outlined="" color="black">
                   View all Vinyl
                 </v-btn>
+        </router-link>
           </div>
         <v-img src="../assets/vinylImg2.jpg"
         class="vinylImg"
@@ -81,10 +86,21 @@
 
       <v-stepper-content step="3">
         <v-card
-          class="mb-12"
+          class="mb-12 vinylCard"
           color="white"
-          height="300px"
-        ></v-card>
+      height="300px">
+      <div class="vinylText">
+        <h2>Shop Sale Items</h2>
+        <v-btn outlined="" color="black">
+                 Sale
+                </v-btn>
+                </div>
+                <v-img src="../assets/vinylImg4.jpg"
+        class="vinylImg"
+         max-width="300"
+      max-height="200"
+        ></v-img>
+        </v-card>
 
         <v-btn
         class="slideBtn"
@@ -368,6 +384,7 @@ methods: {
 
 .slideBtn {
   color: white;
+  margin-left: 50px;
 }
 .snackbarStyle {
     color: #000;
