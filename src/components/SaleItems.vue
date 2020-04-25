@@ -14,9 +14,11 @@
                 <v-card-subtitle class="text--primary">
                   {{ item.artist }}
                 </v-card-subtitle>
-              <v-card-text>
+              <v-card-text> 
                 <p>{{ item.genre }}</p>
+                <div class="fullprice">${{ item.price*2 }}</div>
                 <div class="priceText">${{ item.price }}</div>
+                
               </v-card-text>
               <v-card-actions>
                 <v-btn outlined="" color="black"
@@ -45,6 +47,7 @@
                 </v-card-subtitle>
               <v-card-text>
                 <p>{{ item.description }}</p>
+                <div class="fullprice">${{ item.price*2 }}</div>
                 <div class="priceText">${{ item.price }}</div>
               </v-card-text>
               <v-card-actions>
@@ -242,6 +245,7 @@ console.log(this.salevinyls)
 .fullprice {
     text-decoration: line-through;
     color: #D32F2F;
+    font-size: 18px;
 }
 .snackbarStyle {
     color: #000;

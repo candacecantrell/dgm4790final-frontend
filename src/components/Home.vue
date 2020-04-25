@@ -91,9 +91,11 @@
       height="300px">
       <div class="vinylText">
         <h2>Shop Sale Items</h2>
+        <router-link href="/sale-items" class="menu-link" to="/sale-items">
         <v-btn outlined="" color="black">
                  Sale
                 </v-btn>
+                </router-link>
                 </div>
                 <v-img src="../assets/vinylImg4.jpg"
         class="vinylImg"
@@ -184,6 +186,7 @@ import gql from 'graphql-tag'
       itemsBagged: [],
       activeItem: {},
       cassettes: [],
+      getCassetteId: '',
       searchstring: 'pop',
       searchedCassette: {
       searchedtitle: 'searched',
@@ -195,7 +198,7 @@ import gql from 'graphql-tag'
       artist: 'default',
       price: 0.00,
       genre: 'default',
-      id: "ck98t2v0t00033lwbh3dmh91k",
+      id: "ck9asp41a0007tdwbpyr6sl32",
       VinylDetails: { 
       vinyltitle: 'default',
       vinylartist: 'default',
@@ -225,7 +228,7 @@ import gql from 'graphql-tag'
 }`,
 variables() {
   return {
-    id: this.id,
+    id: this.getCassetteId,
     title: this.title,
     artist: this.artist,
     price: this.price,
@@ -250,10 +253,12 @@ update (data) {
     artist 
     price
     genre
+    id
   }
 }`,
 variables() {
   return {
+    id: this.searchedCassette.id,
     title: this.searchedCassette.searchedtitle,
     artist: this.searchedCassette.searchedartist,
     price: this.searchedCassette.searchedprice,
@@ -263,6 +268,8 @@ variables() {
 },
 update (data) {
         this.cassettes = data.searchCassettes
+                      this.getCassetteId = this.cassettes[3].id
+        console.log(this.getCassetteId)
       console.log(this.cassettes)
       return data.searchCassettes
     },
@@ -380,11 +387,14 @@ methods: {
 }
 .divTitle {
   margin: 30px 0 30px 0;
+} 
+.menu-link {
+  text-decoration: none;
 }
-
 .slideBtn {
   color: white;
   margin-left: 50px;
+  text-decoration: none;
 }
 .snackbarStyle {
     color: #000;

@@ -1,13 +1,13 @@
 <template>
-          <div class="popCassetteDiv">
+          <div class="cartPage">
           <v-row>
-          <v-col cols="4" v-for="(item, i) in this.itemsBagged" :key="i">
-            <v-card class="mx-auto" max-width="350">
-              <v-card-text>
-                <div>{{ item.storeItem.title }}</div>
-                <p class="cassetteTitle">
+          <v-col v-for="(item, i) in this.itemsBagged" :key="i">
+            <v-card class="mx-auto storeCard" >
+              <v-card-title>{{ item.storeItem.title }}</v-card-title>
+              <v-card-subtitle class="cassetteTitle">
                   {{ item.storeItem.artist }}
-                </p>
+              </v-card-subtitle>
+              <v-card-text>
                 <p>{{ item.storeItem.genre}}</p>
                 <div class="text--primary">
                   ${{ item.storeItem.price }}
@@ -88,5 +88,12 @@ export default {
 }
 </script>
 <style scoped>
-
+.storeCard {
+  width: 92vw; 
+  max-width: 800px;
+  margin: 0 auto;
+}
+.cartPage {
+  margin: 50px 4% 50px 4%;
+}
 </style>
