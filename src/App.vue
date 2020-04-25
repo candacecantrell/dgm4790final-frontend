@@ -12,17 +12,17 @@
           </v-btn>
           <v-btn icon>
 
-           <router-link href="/cart-page" class="menu-link" to="/cart-page"> <v-icon>mdi-cart</v-icon></router-link>
+           <router-link href="/cart-page" class="menu-link" to="cart-page"> <v-icon>mdi-cart</v-icon></router-link>
           </v-btn>
-          <template v-slot:extension>
+          <template v-slot:extension> 
         <v-tabs
           align-with-title
         >
         <v-tab href="/"><router-link class="menu-link" to="/">Home</router-link></v-tab>
-          <v-tab href="/all-cassettes"><router-link class="menu-link" to="/all-cassettes">Cassettes</router-link>
+          <v-tab href="/all-cassettes"><router-link class="menu-link" to="all-cassettes">Cassettes</router-link>
           </v-tab>
-          <v-tab href="/all-vinyl"><router-link class="menu-link" to="/all-vinyl">Vinyl</router-link></v-tab>
-          <v-tab href="/sale-items"><router-link class="menu-link" to="/sale-items">Sale</router-link></v-tab>
+          <v-tab href="/all-vinyl"><router-link class="menu-link" to="all-vinyl">Vinyl</router-link></v-tab>
+          <v-tab href="/sale-items"><router-link class="menu-link" to="sale-items">Sale</router-link></v-tab>
           <v-tabs-slider color="pink"></v-tabs-slider>
         </v-tabs>
       </template>
