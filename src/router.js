@@ -8,7 +8,7 @@ import EditCassette from '../views/EditCassette.vue'
 import AllVinyl from '../views/AllVinyl.vue'
 import EditVinyl from '../views/EditVinyl.vue'
 import CreateVinyl from '../views/CreateVinyl.vue'
-import DeleteVinyl from '../views/DeleteVinyl.vue'
+import DeleteVinyl from '../views/DeleteVinyl.vue' 
 import DeleteCassette from '../views/DeleteCassette.vue'
 import SaleItems from '../views/SaleItems.vue'
 import CartPage from '../views/CartPage.vue'
@@ -46,7 +46,7 @@ export default new VueRouter({
             },
             { 
                 path: '/all-vinyl',
-                name: "all-vinyl",
+                name: "allvinyl",
                 component: AllVinyl
             },
             { 
