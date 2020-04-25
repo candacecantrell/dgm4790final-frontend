@@ -44,10 +44,10 @@
 //import axios from 'axios'
 
 export default {
-  snackbartitle: 'default',
-  snackbar: false,
-  name: "allvinyl",
+  name: "editvinyl",
     data: () => ({
+      snackbartitle: 'default',
+  snackbar: false,
     vinyls: [],
     activeItem: {},
     EditableVinyl: {

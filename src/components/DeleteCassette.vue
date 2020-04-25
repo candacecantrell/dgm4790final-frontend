@@ -84,7 +84,7 @@ mutation deleteOneCassette($id: String) {
     }}`
 
   export default {
-    name: 'home',
+    name: 'deletecassette',
 
     data() {
         return {

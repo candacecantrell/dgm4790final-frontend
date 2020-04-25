@@ -44,7 +44,7 @@
 //import axios from 'axios'
 
 export default {
-  name: "allvinyl",
+  name: "deletevinyl",
     data: () => ({
       snackbartitle: 'default',
       snackbar: false,

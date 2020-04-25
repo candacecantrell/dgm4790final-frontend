@@ -97,6 +97,7 @@ mutation createCassette ($artist: String, $genre: String!, $price: Float, $title
   }
 }`
 export default {
+  name: "createcassette",
   data() {
     return {
       newtitle: 'some title',

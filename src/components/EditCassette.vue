@@ -63,7 +63,7 @@ mutation UpdateCassette ($id: ID, $title: String, $artist: String, $genre: Strin
 `
 
   export default {
-    name: 'home',
+    name: 'editcassette',
 
     data() {
         return {

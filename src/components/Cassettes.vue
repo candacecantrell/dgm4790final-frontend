@@ -76,7 +76,7 @@ import gql from 'graphql-tag'
 //   }
 // }`
   export default {
-    name: 'home',
+    name: 'allcassettes',
 
     data: () => ({
                   x: 'right',

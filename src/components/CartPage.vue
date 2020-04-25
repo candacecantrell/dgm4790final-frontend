@@ -22,6 +22,7 @@
 </template>
 <script>
 export default {
+  name: "cartpage",
     data: function() {
         return {
             allBaggedItems: [],

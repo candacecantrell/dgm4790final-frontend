@@ -77,7 +77,7 @@
 //import axios from 'axios'
 
 export default {
-  name: "allvinyl",
+  name: "createvinyl",
     data: () => ({
       snackbar: false,
       snackbartitle: 'default',

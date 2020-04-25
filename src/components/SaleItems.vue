@@ -90,7 +90,7 @@
 import gql from 'graphql-tag'
 
 export default {
-    name: "saleitems",
+    name: "saleitems", 
 
    data: () => ({
             x: 'right',
