@@ -100,10 +100,10 @@ export default {
   name: "createcassette",
   data() {
     return {
-      newtitle: 'some title',
-      newartist: 'some artist',
+      newtitle: 'Cassette Title',
+      newartist: 'Cassette Artist',
       newprice: 29.98,
-      newgenre: 'some genre',
+      newgenre: 'Cassette Genre',
       snackbar: false,
       text: 'Cassette Created',
     } 
