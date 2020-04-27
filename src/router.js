@@ -25,7 +25,7 @@ export default new VueRouter({
             component: Home
         }, 
             { 
-                path: '/all-cassettes',
+                path: '/cassettes', 
                 name: "cassettes",
                 component: Cassettes
             },
