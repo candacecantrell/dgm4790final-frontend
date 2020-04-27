@@ -5,8 +5,7 @@
           <v-col cols="4" v-for="(item, i) in searchCassettes" :key="i">
           <v-card class="mx-auto" max-width="350">
               <v-img
-              eager="true"
-              :src="require(`@/static/img/${item.image}.jpg`)"
+              src="../assets/cassetteImg2.jpg"
               ></v-img>
               <v-card-title class="cassetteTitle">
                   {{ item.title }}
@@ -56,7 +55,6 @@
 
 <script>
 import gql from 'graphql-tag'
-//import * as cassetteImg from '@/assets/cassetteImg2.jpg'
 
 // const ALL_CASSETTES = gql`
 // query searchCassettes {
@@ -81,7 +79,6 @@ import gql from 'graphql-tag'
     name: 'cassettes',
 
     data: () => ({
-      cassetteImg: "cassetteImg2",
                   x: 'right',
         y: 'top',
        snackbartitle: 'default',
@@ -90,7 +87,6 @@ import gql from 'graphql-tag'
       searchedtitle: 'searched',
       searchedartist: 'searched',
       searchedgenre: 'searched',
-      searchedimage: '/image.jpg',
       searchedprice: 0.00,
       },
       bagItem: {
@@ -111,9 +107,8 @@ import gql from 'graphql-tag'
   searchCassettes(searchString: $searchString) {
     title
     artist 
-    price
+    price 
     genre
-    image
   }
 }`,
 variables() {
@@ -122,7 +117,6 @@ variables() {
     artist: this.searchedCassette.searchedartist,
     price: this.searchedCassette.searchedprice,
     genre: this.searchedCassette.searchedgenre,
-    image: this.searchedCassette.searchedimage,
     searchString: this.searchstring
   }
 },
@@ -142,7 +136,6 @@ update (data) {
     this.storedItem.artist  = this.cassettes[i].artist
     this.storedItem.genre = this.cassettes[i].genre
     this.storedItem.price = this.cassettes[i].price
-    this.storeItem.image = this.cassettes[i].image
     //const storedItem = this.storeItem
     const storedItem = this.storedItem
     console.log(this.cassettes[i].title) 
@@ -153,10 +146,6 @@ update (data) {
     this.snackbar = true
         this.storedItem = []
 },
-getImgUrl(pic) {
-  pic = this.cassettes[3].image
-    return require('../assets/'+pic)
-}
 
     },
     mounted: {
