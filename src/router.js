@@ -11,14 +11,15 @@ import CreateVinyl from '../views/CreateVinyl.vue'
 import DeleteVinyl from '../views/DeleteVinyl.vue' 
 import DeleteCassette from '../views/DeleteCassette.vue'
 import SaleItems from '../views/SaleItems.vue'
-import CartPage from '../views/CartPage.vue'
-//import Admin from '../views/Admin.vue'
+import CartPage from '../views/CartPage.vue' 
+import NProgress from 'nprogress';
+
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../node_modules/nprogress/nprogress.css'
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
-    mode: 'history', 
-    routes: [
+const routes = [
         { 
             path: '/',
             name: "home",
@@ -74,10 +75,19 @@ export default new VueRouter({
                 name: "cartpage",
                 component: CartPage
             },
-        // {
-        //     path: '/admin',
-        //     name: "admin",
-        //     component: Admin
-        // }
-    ]
-})
+    ];
+
+    export const router = new VueRouter({ mode: 'history', routes: routes });
+
+router.beforeResolve((to, from, next) => {
+    if (to.name) {
+        NProgress.start()
+    }
+    next()
+  }) 
+   
+  router.afterEach(() => {
+    NProgress.done()
+  })
+
+  export default router;

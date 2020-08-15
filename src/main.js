@@ -9,8 +9,7 @@ import VueApolloComponents from '@vue/apollo-components'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueApollo from "vue-apollo"
-// import { provide } from '@vue/composition-api'
-// import { ApolloClients } from '@vue/apollo-composable'
+
 Vue.use(VueApolloComponents)
 
 Vue.use(VueTruncate)
@@ -26,10 +25,5 @@ new Vue({
   apolloProvider: createProvider(),
   router,
   store,
-  // setup () {
-  //   provide(ApolloClients, {
-  //     default: apolloClient,
-  //   })
-  // },
   render: h => h(App)
 }).$mount('#app')
